@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    Add a new Book
+{% endblock title %}
+
+
+{% block content %}
+
+<div class="container my-3">
+    <div class="card shadow-lg">
+        <div class="card-body">
+            <h1 class="text-center fw-bold mb-4"> {% if book %} Edit {% else %} Add {% endif %} Book Here</h1> 
+            {% if messages %}
+            {% for message in messages %}
+                <div class="alert {% if message.tags == 'error' %} alert-danger {% else %} alert-{{ message.tags }} {% endif %} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+            {% endif %}
+                <form method="POST" enctype="multipart/form-data" action="{% if book %} {% url 'edit' book.slug %} {% else %} {% url 'add' %} {% endif %}">
+                    {% csrf_token %}
+                    <div class="input-group mb-3">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Enter book title</span>
+                    <input type="text" value="{{book.title}}" name="title" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="author">Enter book author</label>
+                        <input type="text" value="{{book.author}}" id="author" name="author" class="form-control" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <select class="form-control" id="inputGroup-sizing-default" name="genre" required>
+                          <option {% if not book %} selected {% endif %} value="">Select Book Genre</option>
+                          <option {% if book.genre == 'History' %} selected {% endif %} value="History">History</option>
+                          <option {% if book.genre == 'Comdey' %} selected {% endif %} value="Comedy">Comedy</option>
+                          <option {% if book.genre == 'Drama' %} selected {% endif %} value="Drama">Drama</option>
+                          <option {% if book.genre == 'Thriller' %} selected {% endif %} value="Thriller">Thriller</option>
+                          <option {% if book.genre == 'Love Story' %} selected {% endif %} value="Love Story">Love Story</option>
+                          <option {% if book.genre == 'Fantasy' %} selected {% endif %} value="Fantasy">Fantasy</option>
+                          <option {% if book.genre == 'Programming Lnaguage' %} selected {% endif %} value="Programming Lnaguage">Programming Language</option>
+                          <option {% if book.genre == 'Novel' %} selected {% endif %} value="Novel">Novel</option>
+                          <option {% if book.genre == 'Finance' %} selected {% endif %} value="Finance">Finance</option>
+                          <option {% if book.genre == 'Motivation' %} selected {% endif %} value="Motivation">Motivation</option>
+                          <option {% if book.genre == 'Others' %} selected {% endif %} value="Others">Others</option>
+                        </select>
+                      </div>
+                    <div class="mb-3">
+                        <label for="desc" class="input-group-text">Book Description</label>
+                        <textarea id="desc" name="description" class="form-control" rows="3" required>{{book.description}}</textarea>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label for="price" class="input-group-text">Enter Book Price</label>
+                        <input type="number" value="{{book.price}}" name="price" id="price" class="form-control" step="0.01" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label">Upload Book Cover</label>
+                        <input class="form-control" value="{{book.image.url}}" type="file" id="formFile" name="image" accept="image/*" required>
+                      </div>
+                      {% if book %}
+                      <a href="{% url 'details' book.slug %}" class="btn btn-danger">Cancel Edit</a>
+                      {% endif %}
+                    <input type="submit" class="btn btn-primary" value="{% if book %} Confirm Edit {% else %} Add Book {% endif   %}">
+                </form>
+                <br> 
+                    <a href="{% url 'home' %}" class="btn btn-secondary">Back to Home</a>
+                    
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+    
+    

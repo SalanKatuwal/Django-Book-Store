@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block title %}
+  Book-Store-of-Salan-Katuwal
+{% endblock title %}
+  
+
+{% block content %}
+{% if messages %}
+{% for message in messages %}
+    <div class="alert {% if message.tags == 'error' %} alert-danger {% else %} alert-{{ message.tags }} {% endif %} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+{% endfor %}
+{% endif %}
+<p class="text-center fs-1 fw-semibold">Welcome to my Book Store</p>
+<p class="text-center fs-3 fw-medium">Total Books: {% with bookLength=books|length %} {{ bookLength }} {% endwith %} </p>
+<p class="text-center fs-3 fw-medium"> <a href="{% url 'add' %}" class="btn btn-primary">Add Book</a> </p>
+
+<div class="row">
+{% for book in books %}
+<div class="col-md-4 mb-4">
+<div class="card mb-3" style="max-width: 540px;">
+  <div class="row g-0">
+    <div class="col-md-4">
+      <img src="{{book.image.url}}" class="img-fluid rounded-start" alt="{{book.title}}">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">{{book.title}}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">Author: {{book.author}}</h6>
+        <p class="card-text">{{ book.description|truncatechars:150 }}</p>
+        <a href="{% url 'details' book.slug %}" class="btn btn-primary">Details</a>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+{% endfor %}
+</div>
+
+<p class="text-center fs-3 fw-medium"> <a href="{% url 'display' %}" class="btn btn-primary">See all book</a> </p>
+{% endblock content %}
+  
