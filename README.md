@@ -3,7 +3,7 @@
 BookStore is a full-featured Django web application for managing books in an online store. It allows users to add, edit, delete, and view books through a clean and responsive Bootstrap interface. Ideal for learning CRUD operations and Django fundamentals.
 
 ## Live Demo
-Check out the project here <a href="https://www.salankatuwal.com.np/bookstore.html" target="_blank">Demo</a>.
+Check out the project here [Demo 🡕](https://www.salankatuwal.com.np/bookstore.html)
 
 ## How the web app works
 
