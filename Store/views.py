@@ -2,12 +2,18 @@ from django.shortcuts import render,redirect
 from django.contrib import messages
 from .models import Book
 import random
+import os
 from django.shortcuts import get_object_or_404
 # Create your views here.
 def home(request):
+    total_len = Book.objects.all().count()
     books = list(Book.objects.all())
     random_books = random.sample(books, min(3, len(books)))
-    return render(request, 'home.html', {'books': random_books})
+    context={
+        'books': random_books,
+        'total_len': total_len,
+    }
+    return render(request, 'home.html', context)
 
 def add(request):
     if request.method =="POST":
@@ -36,6 +42,10 @@ def details(request,name):
 
 def delete(request,name):
     book = get_object_or_404(Book, slug=name)
+    if book.image:  # assuming the field name is `image`
+        image_path = os.path.join(settings.MEDIA_ROOT, str(book.image))
+        if os.path.exists(image_path):
+            os.remove(image_path)
     book.delete()
     messages.success(request, 'Book deleted successfully')
     return redirect('home')

@@ -16,7 +16,7 @@
 {% endfor %}
 {% endif %}
 <p class="text-center fs-1 fw-semibold">Welcome to my Book Store</p>
-<p class="text-center fs-3 fw-medium">Total Books: {% with bookLength=books|length %} {{ bookLength }} {% endwith %} </p>
+<p class="text-center fs-3 fw-medium">Total Books: {{ total_len }} </p>
 <p class="text-center fs-3 fw-medium"> <a href="{% url 'add' %}" class="btn btn-primary">Add Book</a> </p>
 
 <div class="row">
